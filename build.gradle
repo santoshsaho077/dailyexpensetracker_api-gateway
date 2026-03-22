@@ -19,24 +19,28 @@ repositories {
 }
 
 ext {
-	springCloudVersion = '2023.0.6'
+	springCloudVersion = '2023.0.3' // ✅ downgrade from 2023.0.6 — more stable with Boot 3.3.4
 }
 
 dependencies {
+	// --- Spring Cloud Gateway (includes WebFlux internally — do NOT add webflux separately) ---
+	implementation 'org.springframework.cloud:spring-cloud-starter-gateway' // ✅ only this
+
 	// --- Spring Boot Starters ---
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	// ❌ REMOVED: spring-boot-starter-webflux (gateway already includes it)
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-	// --- Spring Cloud ---
-	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+	// --- Spring Cloud Config ---
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
+	// --- Lombok ---
 	compileOnly 'org.projectlombok:lombok:1.18.34'
 	annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
 	testCompileOnly 'org.projectlombok:lombok:1.18.34'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+
 	// --- Testing ---
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'

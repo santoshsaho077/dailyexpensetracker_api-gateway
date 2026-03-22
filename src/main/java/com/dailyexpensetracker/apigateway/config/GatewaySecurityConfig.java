@@ -2,6 +2,7 @@ package com.dailyexpensetracker.apigateway.config;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.security.oauth2.server.resource.authentication.Reacti
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import reactor.core.publisher.Flux;
 
+@Slf4j
 @Configuration
 @EnableWebFluxSecurity
 public class GatewaySecurityConfig {
@@ -30,7 +32,7 @@ public class GatewaySecurityConfig {
         .authorizeExchange(
             exchange ->
                 exchange
-                    .pathMatchers("/signUp/**", "/signIn/**", "/stats/**")
+                    .pathMatchers("/v1/user/**", "/v1/actuator/health")
                     .permitAll()
                     .anyExchange()
                     .authenticated())
@@ -51,6 +53,7 @@ public class GatewaySecurityConfig {
    */
   @Bean
   public ReactiveJwtDecoder reactiveJwtDecoder() {
+    log.info("Initializing JWT decoder with secret length: {}", jwtSecret.length());
     SecretKey key = new SecretKeySpec(jwtSecret.getBytes(), "HmacSHA256");
     return NimbusReactiveJwtDecoder.withSecretKey(key).macAlgorithm(MacAlgorithm.HS256).build();
   }
