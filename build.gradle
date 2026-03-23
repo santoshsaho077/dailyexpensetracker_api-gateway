@@ -27,11 +27,10 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-gateway' // ✅ only this
 
 	// --- Spring Boot Starters ---
-	// ❌ REMOVED: spring-boot-starter-webflux (gateway already includes it)
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-
+	implementation 'me.paulschwarz:spring-dotenv:4.0.0'
 	// --- Spring Cloud Config ---
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 

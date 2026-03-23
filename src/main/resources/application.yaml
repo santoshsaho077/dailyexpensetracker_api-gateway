@@ -1,51 +1,14 @@
 spring:
   application:
-      name: api-gateway
-  cloud:
-    gateway:
-      routes:
-        - id: user-service
-          uri: http://localhost:8080
-          predicates:
-            - Path=/v1/user/**
-          filters:
-            - StripPrefix=0
-
-        # Expense Service - add more microservices here
-        - id: expense-service
-          uri: http://localhost:8081
-          predicates:
-            - Path=/v1/expense/**
-          filters:
-            - StripPrefix=0
-
-      # Global CORS config
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins: "*"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
-            allowedHeaders: "*"
+    name: api-gateway        # ✅ config server uses this to find api-gateway.yml
   config:
-    import: optional:configserver:http://localhost:9090/
+    import: configserver:http://localhost:9090/
 
 server:
   port: 9000
 
-app:
-  jwt:
-    secret: ${JWT_TOKEN}
-
 logging:
   level:
     root: INFO
-    org.springframework.cloud.gateway: DEBUG        # gateway route matching
-    org.springframework.security: DEBUG             # security/auth decisions
-    com.dailyexpensetracker.apigateway: DEBUG       # your own classes
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    com.dailyexpensetracker.apigateway: DEBUG
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
