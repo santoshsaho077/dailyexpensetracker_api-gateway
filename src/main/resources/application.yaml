@@ -12,3 +12,7 @@ logging:
     root: INFO
     com.dailyexpensetracker.apigateway: DEBUG
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+
+jwt:
+  access-secret: ${JWT_ACCESS_SECRET}
+  refresh-secret: ${JWT_REFRESH_SECRET}
